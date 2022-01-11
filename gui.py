@@ -174,7 +174,8 @@ class ConfigWindow(QWidget):
             for hoster in self.config.hosters:
                 self.hosters_list_widget.addItem(QListWidgetItem(hoster))
         else:
-            hoster_list = ["VOE", "Streamtape", "Vupload", "UPStream", "Vidoza", "VideoVard", "MIXdrop"]
+            # TODO upstream, videovard (can't be implemented due to minified javascript rn, needed to parse logs)
+            hoster_list = ["VOE", "Vupload", "Streamtape", "MIXdrop", "Vidoza", "UPStream (NOT WORKING)", "VideoVard (NOT WORKING)"]
             for item in hoster_list:
                 self.hosters_list_widget.addItem(QListWidgetItem(item))
 
@@ -250,6 +251,10 @@ class Window(QMainWindow):
     def show_config_window(self):
         self.config_window = ConfigWindow()
         self.config_window.show()
+
+    def create_messagebox(self, callback):
+        self.enable_buttons()
+        print(callback)
 
     def refresh_database(self):
         db = Database(db_file_name="bsdl.db", db_folder_path='./db')
@@ -348,8 +353,13 @@ class Window(QMainWindow):
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.worker.progress.connect(self.report_progress)
+        self.worker.callback_signal.connect(self.create_messagebox)
 
         self.thread.start()
+
+        self.disable_buttons()
+
+        self.thread.finished.connect(self.enable_buttons)
 
     def download_episode_task(self, episode, season):
         self.thread = QThread()
@@ -362,8 +372,13 @@ class Window(QMainWindow):
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.worker.progress.connect(self.report_progress)
+        self.worker.callback_signal.connect(self.create_messagebox)
 
         self.thread.start()
+
+        self.disable_buttons()
+
+        self.thread.finished.connect(self.enable_buttons)
 
     def disable_buttons(self):
         self.loadButton.setEnabled(False)
@@ -396,6 +411,7 @@ class Window(QMainWindow):
         self.worker.finished.connect(self.worker.deleteLater)
         self.thread.finished.connect(self.thread.deleteLater)
         self.worker.progress.connect(self.report_progress)
+        self.worker.callback_signal.connect(self.create_messagebox)
 
         self.thread.start()
 

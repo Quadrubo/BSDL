@@ -36,6 +36,8 @@ class Config:
 
         self.write(data)
 
+        self.load_to_vars()
+
     def set_chrome_user_data_dir(self, text):
         self.chrome_user_data_dir = text
 
@@ -43,6 +45,8 @@ class Config:
         data["chrome_user_data_dir"] = text
 
         self.write(data)
+
+        self.load_to_vars()
 
     def set_chrome_profile_dir(self, text):
         self.chrome_profile_dir = text
@@ -52,6 +56,8 @@ class Config:
 
         self.write(data)
 
+        self.load_to_vars()
+
     def set_chrome_driver_file(self, text):
         self.chrome_user_data_dir = text
 
@@ -59,6 +65,8 @@ class Config:
         data["chrome_driver_file"] = text
 
         self.write(data)
+
+        self.load_to_vars()
 
     def load(self):
         with open(self.filename) as f:

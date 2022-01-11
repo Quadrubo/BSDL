@@ -1,8 +1,9 @@
+import selenium.common.exceptions
 from selenium.webdriver.common.by import By
+import logging
 
 from database import Database
 from episode import Episode
-
 
 class Season:
     def __init__(self, driver, url, name=None, episodes=None):
@@ -12,7 +13,12 @@ class Season:
         self.driver = driver
 
     def get_data(self):
-        self.driver.get(self.url)
+        try:
+            logging.info("Loading season url")
+            self.driver.get(self.url)
+        except selenium.common.exceptions.NoSuchElementException:
+            logging.error("Season url could not be loaded")
+            return [1, "Error", "Please check if you entered a valid URL."]
 
         # Scrape the url of each episode
         episode_list = []

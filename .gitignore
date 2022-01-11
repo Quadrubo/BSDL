@@ -1,4 +1,6 @@
-**/driver
-**/db
 **/_output
+**/build
+**/db
+**/dist
+**/driver
 config.json

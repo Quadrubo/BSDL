@@ -4,7 +4,6 @@ from database import Database
 from series import Series
 from scraper import Scraper
 
-
 class SeriesLoader(QObject):
     def __init__(self, series_url):
         super().__init__()
@@ -13,6 +12,7 @@ class SeriesLoader(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(list)
     result = pyqtSignal(Series)
+    callback_signal = pyqtSignal(list)
 
     def run(self):
         total_progress_min = 1
@@ -21,10 +21,16 @@ class SeriesLoader(QObject):
         local_progress = 0
 
         scraper = Scraper()
-        scraper.create_driver()
+        callback = scraper.create_driver()
+        if callback != 0:
+            self.callback_signal.emit(callback)
+            return callback
 
         series = Series(driver=scraper.driver, url=self.series_url)
-        series.get_data()
+        callback = series.get_data()
+        if callback != 0:
+            self.callback_signal.emit(callback)
+            return callback
 
         local_progress += 10
         self.progress.emit([total_progress, local_progress])
@@ -56,6 +62,7 @@ class EpisodeDownloader(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(list)
     result = pyqtSignal(Series)
+    callback_signal = pyqtSignal(list)
 
     def run(self):
         total_progress_min = 1
@@ -63,7 +70,10 @@ class EpisodeDownloader(QObject):
         total_progress = f"Downloading Episode {total_progress_min} / {total_progress_max}"
 
         scraper = Scraper()
-        scraper.create_driver()
+        callback = scraper.create_driver()
+        if callback != 0:
+            self.callback_signal.emit(callback)
+            return callback
 
         print(self.episode.url)
 
@@ -86,30 +96,33 @@ class SeasonDownloader(QObject):
     finished = pyqtSignal()
     progress = pyqtSignal(list)
     result = pyqtSignal(Series)
+    callback_signal = pyqtSignal(list)
 
     def run(self):
         total_progress_min = 1
         total_progress_max = 0
         for episode in self.season.episodes:
-            if not episode.downloaded:
+            if not episode.downloaded and episode.downloadable:
                 total_progress_max += 1
 
         total_progress = f"Downloading Episode {total_progress_min} / {total_progress_max}"
 
         scraper = Scraper()
-        scraper.create_driver()
+        callback = scraper.create_driver()
+        if callback != 0:
+            self.callback_signal.emit(callback)
+            return callback
 
-        tmp_counter = 1
         for episode in self.season.episodes:
-            if not episode.downloaded:
+            print(episode.name)
+            if not episode.downloaded and episode.downloadable:
                 episode.driver = scraper.driver
                 episode.get_download_link()
                 print(episode.hoster)
                 print(episode.hoster_url)
-                tmp_counter += 1
 
         for episode in self.season.episodes:
-            if not episode.downloaded:
+            if not episode.downloaded and episode.downloadable:
                 episode.driver = scraper.driver
                 episode.download(self.progress, total_progress, self.season, self.series)
                 total_progress_min += 1
