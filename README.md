@@ -3,7 +3,7 @@ This is a python program to download files from BS.
 
 # Requirements
 * BSDL
-  * Download BS Downloader from the [releases](https://github.com/Quadrubo/BSDL/releases) tab.
+  * Download the latest version of BSDL from the [releases](https://github.com/Quadrubo/BSDL/releases) tab.
   * Move it to wherever you like (It'll will other files so a placing it inside a folder will be necessary)
 
 * Chrome Browser
