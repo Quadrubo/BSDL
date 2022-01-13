@@ -1,0 +1,244 @@
+2022-01-13 13:36:08,691 - gui.py@Window - DEBUG - Logging started
+2022-01-13 13:36:08,691 - gui.py@Window - DEBUG - Setting up the UI
+2022-01-13 13:36:08,695 - gui.py@Window - DEBUG - UI setup complete
+2022-01-13 13:36:08,695 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:08,695 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:08,695 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:08,696 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:08,696 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:10,624 - scraper.py@Scraper - DEBUG - Logging started
+2022-01-13 13:36:10,624 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:10,624 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:10,625 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:10,625 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:10,625 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:11,145 - urllib3.connectionpool - DEBUG - Starting new HTTP connection (1): localhost:63464
+2022-01-13 13:36:11,797 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session HTTP/1.1" 200 782
+2022-01-13 13:36:13,514 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/url HTTP/1.1" 200 14
+2022-01-13 13:36:14,516 - series.py@Series - DEBUG - Logging started
+2022-01-13 13:36:14,791 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/url HTTP/1.1" 200 14
+2022-01-13 13:36:14,811 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,819 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 102
+2022-01-13 13:36:14,826 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,833 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/9bb5bf6f-8524-4374-81d2-33720b71a4e7/elements HTTP/1.1" 200 406
+2022-01-13 13:36:14,839 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/a5958fe1-0981-4db5-ad09-d22bedb8f3b3/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,847 - urllib3.connectionpool - DEBUG - http://localhost:63464 "GET /session/68fd6c844fd7e0f5412928b25411dadb/element/8504e9bc-1c8f-470f-ad95-c11afd2237bb/text HTTP/1.1" 200 20
+2022-01-13 13:36:14,854 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 57
+2022-01-13 13:36:14,855 - season.py@Season - DEBUG - Logging started
+2022-01-13 13:36:14,860 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/36239e32-f39e-4333-977b-d2c4ae6df412/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,868 - urllib3.connectionpool - DEBUG - http://localhost:63464 "GET /session/68fd6c844fd7e0f5412928b25411dadb/element/9b8d3fb4-1ccb-4dcd-b347-5c83b8cf17ad/text HTTP/1.1" 200 13
+2022-01-13 13:36:14,873 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 57
+2022-01-13 13:36:14,873 - season.py@Season - DEBUG - Logging started
+2022-01-13 13:36:14,879 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/5d698623-7c95-46d1-afac-71c7ee73df68/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,886 - urllib3.connectionpool - DEBUG - http://localhost:63464 "GET /session/68fd6c844fd7e0f5412928b25411dadb/element/446a1e4d-889f-45d2-a88d-517ae0a66bcd/text HTTP/1.1" 200 13
+2022-01-13 13:36:14,891 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 57
+2022-01-13 13:36:14,892 - season.py@Season - DEBUG - Logging started
+2022-01-13 13:36:14,897 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/d9c91900-3907-4a57-a04e-e427a10f6c03/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,905 - urllib3.connectionpool - DEBUG - http://localhost:63464 "GET /session/68fd6c844fd7e0f5412928b25411dadb/element/609c3da2-7d56-447d-8887-7415ad124481/text HTTP/1.1" 200 13
+2022-01-13 13:36:14,925 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 57
+2022-01-13 13:36:14,926 - season.py@Season - DEBUG - Logging started
+2022-01-13 13:36:14,931 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/4e087e28-3073-4ad1-87b1-1164aba12df7/element HTTP/1.1" 200 88
+2022-01-13 13:36:14,938 - urllib3.connectionpool - DEBUG - http://localhost:63464 "GET /session/68fd6c844fd7e0f5412928b25411dadb/element/26cf1234-a80d-411f-b621-266fc5af1ec9/text HTTP/1.1" 200 13
+2022-01-13 13:36:14,943 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 57
+2022-01-13 13:36:14,943 - season.py@Season - DEBUG - Logging started
+2022-01-13 13:36:15,049 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/url HTTP/1.1" 200 14
+2022-01-13 13:36:15,056 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element HTTP/1.1" 200 88
+2022-01-13 13:36:15,063 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/ebbcd837-b7e3-4cdf-93fe-5218f9412731/elements HTTP/1.1" 200 1828
+2022-01-13 13:36:15,069 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/element/82954fc4-d702-4ccd-b1cb-cedc5907fac1/element HTTP/1.1" 200 88
+2022-01-13 13:36:15,076 - urllib3.connectionpool - DEBUG - http://localhost:63464 "GET /session/68fd6c844fd7e0f5412928b25411dadb/element/2027792d-2bc5-4675-8d89-47ff677287a3/text HTTP/1.1" 200 13
+2022-01-13 13:36:15,082 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 43
+2022-01-13 13:36:15,087 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 90
+2022-01-13 13:36:15,093 - urllib3.connectionpool - DEBUG - http://localhost:63464 "POST /session/68fd6c844fd7e0f5412928b25411dadb/execute/sync HTTP/1.1" 200 12
+2022-01-13 13:36:15,093 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,093 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,093 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,093 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,093 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,093 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,138 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,138 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,138 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,138 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,138 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,138 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,168 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,168 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,168 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,168 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,169 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,169 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,197 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,197 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,198 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,198 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,198 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,198 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,225 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,225 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,225 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,225 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,225 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,225 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,253 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,253 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,254 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,254 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,254 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,254 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,283 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,283 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,283 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,283 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,283 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,283 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,312 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,312 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,312 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,312 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,312 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,312 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,340 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,340 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,340 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,340 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,341 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,341 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,370 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,370 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,371 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,371 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,371 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,371 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,398 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,398 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,398 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,399 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,399 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,399 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,427 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,427 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,427 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,427 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,427 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,427 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,454 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,454 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,455 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,455 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,455 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,455 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,487 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,487 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,487 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,487 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,488 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,488 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,515 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,515 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,515 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,515 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,515 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,516 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,543 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,543 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,543 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,543 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,543 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,544 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,571 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,571 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,571 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,571 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,571 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,571 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,599 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,599 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,599 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,599 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,599 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,599 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,627 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,627 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,627 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,627 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,628 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,628 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,656 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,656 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,656 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,656 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,656 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,656 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,684 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,684 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,684 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,684 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,685 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,685 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,712 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,713 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,713 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,713 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,713 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,713 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,741 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,741 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,742 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,742 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,742 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,742 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,900 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,900 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,900 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,900 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,900 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,900 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,947 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,947 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,947 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,947 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,947 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,947 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:15,977 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:15,977 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:15,978 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:15,978 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:15,978 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:15,978 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,007 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:16,007 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:16,007 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:16,007 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:16,007 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:16,007 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,036 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:16,036 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:16,037 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:16,037 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:16,037 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:16,037 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,073 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:16,073 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:16,073 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:16,073 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:16,074 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:16,074 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,102 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:16,102 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:16,103 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:16,103 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:16,103 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:16,103 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,131 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:16,131 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:16,131 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:16,131 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:16,131 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:16,132 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,161 - episode.py@Episode - DEBUG - Logging started
+2022-01-13 13:36:16,161 - config.py@Config - DEBUG - Logging started
+2022-01-13 13:36:16,161 - config.py@Config - DEBUG - Loading data into object variables...
+2022-01-13 13:36:16,161 - config.py@Config - DEBUG - Loading data from the config file ("config.json") ...
+2022-01-13 13:36:16,161 - config.py@Config - DEBUG - Data successfully loaded
+2022-01-13 13:36:16,161 - config.py@Config - DEBUG - Data successfully loaded into object variables
+2022-01-13 13:36:16,174 - season.py@Season - ERROR - Unknown error. Please open up an issue on GitHub (https://github.com/Quadrubo/BSDL) with your error log included ("bsdl.txt"). Check the "bsdl.txt" file for more information.

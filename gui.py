@@ -1,5 +1,6 @@
 import os
 import sys
+import logging
 
 from PyQt5.QtCore import (
     Qt,
@@ -61,11 +62,18 @@ class TabWidget(QWidget):
 class HosterList(QListWidget):
     def __init__(self):
         QListWidget.__init__(self)
+        self.setup_logger()
         self.installEventFilter(self)
         self.config = Config()
 
+    def setup_logger(self):
+        logging.basicConfig(level=logging.DEBUG, filename="bsdl.txt", filemode="w", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        self.logger = logging.getLogger('gui.py@HosterList')
+        self.logger.debug("Logging started")
+
     def eventFilter(self, sender, event):
         if event.type() == QEvent.ChildRemoved:
+            self.logger.debug("Hoster has been moved")
             self.hoster_moved(sender, event)
         return False
 
@@ -80,11 +88,17 @@ class HosterList(QListWidget):
 class ConfigWindow(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setup_logger()
         self.config = Config()
         self.setup_ui()
         self.setFocusPolicy(Qt.StrongFocus)
         self.setWindowFlags(Qt.WindowStaysOnTopHint)
         self.setWindowModality(Qt.ApplicationModal)
+
+    def setup_logger(self):
+        logging.basicConfig(level=logging.DEBUG, filename="bsdl.txt", filemode="w", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        self.logger = logging.getLogger('gui.py@ConfigWindow')
+        self.logger.debug("Logging started")
 
     def chrome_user_data_dir_button_clicked(self):
         dialog = QFileDialog(self)
@@ -202,6 +216,7 @@ class ConfigWindow(QWidget):
 class Window(QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setup_logger()
         self.config_window = None
         self.clicksCount = 0
         self.setup_ui()
@@ -211,11 +226,18 @@ class Window(QMainWindow):
         self.test = False
         self.buttons = []
 
+    def setup_logger(self):
+        logging.basicConfig(level=logging.DEBUG, filename="bsdl.txt", filemode="w", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        self.logger = logging.getLogger('gui.py@Window')
+        self.logger.debug("Logging started")
+
     def check_config(self):
         if self.config.chrome_user_data_dir is None or self.config.chrome_profile_dir is None or self.config.chrome_driver_file is None or self.config.hosters is None:
             self.show_config_window()
 
     def setup_ui(self):
+        self.logger.debug("Setting up the UI")
+
         self.setWindowTitle("BSDL v4.0.0-alpha.1")
         self.resize(900, 600)
         self.centralWidget = QWidget()
@@ -247,6 +269,8 @@ class Window(QMainWindow):
         self.layout.addWidget(self.configButton, 3, 0, 1, 1)
         self.centralWidget.setLayout(self.layout)
         self.centralWidget.setLayout(self.layout)
+
+        self.logger.debug("UI setup complete")
 
     def show_config_window(self):
         self.config_window = ConfigWindow()
@@ -394,6 +418,8 @@ class Window(QMainWindow):
     def enable_buttons(self):
         self.loadButton.setEnabled(True)
         self.configButton.setEnabled(True)
+        self.progressLabel.setText("0/0")
+        self.progressBar.setValue(0)
 
     def load_series_task(self):
         series_url = self.urlEntry.text()

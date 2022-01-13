@@ -1,4 +1,5 @@
 import datetime
+import logging
 import os
 import re
 import subprocess
@@ -6,6 +7,7 @@ import time
 import urllib.request
 import urllib.error
 
+import selenium.common.exceptions
 from selenium.webdriver.common.by import By
 
 from config import Config
@@ -13,6 +15,8 @@ from config import Config
 
 class Episode:
     def __init__(self, driver, url, name=None, number=None, downloadable=None, downloaded=None):
+        self.logger = None
+        self.setup_logger()
         self.name = name
         self.number = number
         self.downloadable = downloadable
@@ -23,7 +27,17 @@ class Episode:
         self.hoster_url = None
         self.config = Config()
 
+    def setup_logger(self):
+        logging.basicConfig(level=logging.DEBUG, filename="bsdl.txt", filemode="w", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+        self.logger = logging.getLogger('episode.py@Episode')
+        self.logger.debug("Logging started")
+
+        urllib3_log = logging.getLogger("urllib3.connectionpool")
+        urllib3_log.setLevel(logging.CRITICAL)
+
     def download_from_mp4(self, mp4_link, progress, total_progress, season, series, wait_time=0):
+        if not os.path.isdir('./_output'):
+            os.mkdir('./_output')
         series.name = re.sub(r'[|\\\/:*"?<>]', '', series.name)
         series_path = os.path.join('./_output', series.name)
         if not os.path.isdir(series_path):
@@ -82,48 +96,12 @@ class Episode:
 
         proc.stdout.close()
         proc.wait()
-        """
-        for line in iter(proc.stdout.readline, b''):
-            # line = line.decode()
-            try:
-                pass
-                #progr = re.findall('\/seg-.*-v', line)[0]
-                #progr = progr[5:progr.find("-v")]
-                #local_progress = (float(progr) / float(progress_all)) * 100
-                #progress.emit([total_progress, local_progress])
-            except IndexError:
-                pass
-            print(type(line))
-            print(line)
-        proc.stdout.close()
-        proc.wait()
-        """
 
         self.downloaded = True
 
         return 0
 
     def download_from_m3u8(self, master_m3u8_url, progress, total_progress, season, series):
-        """
-        m3u8_url = ""
-        highest_resolution = 0
-        try:
-            for line in urllib.request.urlopen(master_m3u8_url):
-                line = line.decode()
-                try:
-                    resolution = re.findall('RESOLUTION=[0-9x]*', line)[0]
-                    resolution = int(resolution[11:].split("x")[0])
-                    if resolution > highest_resolution:
-                        m3u8_url = re.findall('URI=".*"', line)[0]
-                        m3u8_url = m3u8_url[5:-1]
-                        highest_resolution = resolution
-                except IndexError:
-                    pass
-        except urllib.error.HTTPError as e:
-            print(e)
-            return 1
-        """
-
         m3u8_url = ""
         highest_resolution = 0
         next_line = False
@@ -152,6 +130,8 @@ class Episode:
 
         progress_all = counter
 
+        if not os.path.isdir('./_output'):
+            os.mkdir('./_output')
         series.name = re.sub(r'[|\\\/:*"?<>]', '', series.name)
         series_path = os.path.join('./_output', series.name)
         if not os.path.isdir(series_path):
@@ -160,8 +140,6 @@ class Episode:
         season_path = os.path.join(series_path, season.name)
         if not os.path.isdir(season_path):
             os.mkdir(season_path)
-
-        print("HEREEEEEEE: " + str(m3u8_url))
 
         output_file = os.path.join(season_path, f'{self.number}.mp4')
 
@@ -185,171 +163,200 @@ class Episode:
         return 0
 
     def get_download_link(self):
-        self.driver.get(self.url)
+        try:
+            self.driver.get(self.url)
 
-        preferred_hosters = self.config.hosters
-        available_hosters = []
+            preferred_hosters = self.config.hosters
+            available_hosters = []
 
-        hosters_ul_1 = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/ul[1]')
-        hoster_lis_1 = hosters_ul_1.find_elements(By.TAG_NAME, 'li')
-        hosters_ul_2 = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/ul[2]')
-        hoster_lis_2 = hosters_ul_2.find_elements(By.TAG_NAME, 'li')
+            hosters_ul_1 = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/ul[1]')
+            hoster_lis_1 = hosters_ul_1.find_elements(By.TAG_NAME, 'li')
+            hosters_ul_2 = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/ul[2]')
+            hoster_lis_2 = hosters_ul_2.find_elements(By.TAG_NAME, 'li')
 
-        for hoster_li in hoster_lis_1:
-            available_hosters.append(hoster_li.text.strip().lower())
+            for hoster_li in hoster_lis_1:
+                available_hosters.append(hoster_li.text.strip().lower())
 
-        for hoster_li in hoster_lis_2:
-            available_hosters.append(hoster_li.text.strip().lower())
+            for hoster_li in hoster_lis_2:
+                available_hosters.append(hoster_li.text.strip().lower())
 
-        hoster_positions = []
+            hoster_positions = []
 
-        for hoster in available_hosters:
-            counter = 0
-            for pref_hoster in preferred_hosters:
-                if hoster == pref_hoster.strip().lower():
-                    hoster_positions.append([hoster, counter])
-                    break
-                counter += 1
+            for hoster in available_hosters:
+                counter = 0
+                for pref_hoster in preferred_hosters:
+                    if hoster == pref_hoster.strip().lower():
+                        hoster_positions.append([hoster, counter])
+                        break
+                    counter += 1
 
-        preferred_hoster = ""
-        position = 99
-        for hoster in hoster_positions:
-            if hoster[1] < position:
-                position = hoster[1]
-                preferred_hoster = hoster[0]
+            preferred_hoster = ""
+            position = 99
+            for hoster in hoster_positions:
+                if hoster[1] < position:
+                    position = hoster[1]
+                    preferred_hoster = hoster[0]
 
-        hoster_link = ""
-        for hoster_li in hoster_lis_1:
-            if hoster_li.text.strip().lower() == preferred_hoster:
-                hoster_link = hoster_li
-        for hoster_li in hoster_lis_2:
-            if hoster_li.text.strip().lower() == preferred_hoster:
-                hoster_link = hoster_li
+            hoster_link = ""
+            for hoster_li in hoster_lis_1:
+                if hoster_li.text.strip().lower() == preferred_hoster:
+                    hoster_link = hoster_li
+            for hoster_li in hoster_lis_2:
+                if hoster_li.text.strip().lower() == preferred_hoster:
+                    hoster_link = hoster_li
 
-        hoster_link.click()
+            hoster_link.click()
 
-        self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]').click()
+            self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]').click()
 
-        time.sleep(1)
+            time.sleep(1)
 
-        msg_send = False
-        while True:
-            try:
-                vscheck = self.driver.find_element(By.XPATH, "/html/body/div[4]")
-                if "visible" in vscheck.get_attribute("style"):
-                    if not msg_send:
-                        print("INFO: Captcha found, Human needed O.O")
-                        msg_send = True
-                else:
-                    print("INFO: Captcha solved. Good job Human :)")
-                    break
-            except:
-                pass
+            msg_send = False
+            while True:
+                try:
+                    vscheck = self.driver.find_element(By.XPATH, "/html/body/div[4]")
+                    if "visible" in vscheck.get_attribute("style"):
+                        if not msg_send:
+                            print("INFO: Captcha found, Human needed O.O")
+                            msg_send = True
+                    else:
+                        print("INFO: Captcha solved. Good job Human :)")
+                        break
+                except:
+                    pass
 
-        time.sleep(1)
+            time.sleep(1)
 
-        # TODO support all hosters
-
-        hoster_url = None
-        if preferred_hoster == "vupload":
-            hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
-        elif preferred_hoster == "upstream":
             hoster_url = None
-            # TODO Not Implemented due to minified JavaScript
-        elif preferred_hoster == "voe":
-            hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
-        elif preferred_hoster == "streamtape":
-            hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
-        elif preferred_hoster == "mixdrop":
-            hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
-        elif preferred_hoster == "vidoza":
-            hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
-        elif preferred_hoster == "videovard":
-            hoster_url = self.driver.find_element(By.XPATH, 'https://videovard.sx/e/hd3elvaixjwb').get_attribute('src')
+            if preferred_hoster == "vupload":
+                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
+            elif preferred_hoster == "voe":
+                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
+            elif preferred_hoster == "streamtape":
+                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
+            elif preferred_hoster == "mixdrop":
+                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
+            elif preferred_hoster == "vidoza":
+                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
+            elif preferred_hoster == "upstream":
+                hoster_url = None
+                # TODO Not Implemented due to minified JavaScript (fixable with log reading)
+            elif preferred_hoster == "videovard":
+                hoster_url = None
+                # TODO Not Implemented due to missing Javascript (fixable with log reading)
+                # hoster_url = self.driver.find_element(By.XPATH, 'https://videovard.sx/e/hd3elvaixjwb').get_attribute('src')
 
-        self.hoster = preferred_hoster
-        self.hoster_url = hoster_url
-        return hoster_url
+            self.hoster = preferred_hoster
+            self.hoster_url = hoster_url
+            return hoster_url
+        except selenium.common.exceptions.InvalidArgumentException:
+            self.logger.error("Please close any currently running instances of chrome and try again. Also check the Task-Manager. Check the \"bsdl.txt\" file for more information.", exc_info=True)
+            return [1, "Error", "Please close any currently running instances of chrome and try again. Also check the Task-Manager. Check the \"bsdl.txt\" file for more information."]
+        except selenium.common.exceptions.WebDriverException:
+            self.logger.error("It seems like Chrome has been closed manually. Please try again. Check the \"bsdl.txt\" file for more information.", exc_info=True)
+            return [1, "Error", "It seems like Chrome has been closed manually. Please try again. Check the \"bsdl.txt\" file for more information."]
+        except Exception:
+            self.logger.error("Unknown error. Please open up an issue on GitHub (https://github.com/Quadrubo/BSDL) with your error log included (\"bsdl.txt\"). Check the \"bsdl.txt\" file for more information.")
+            return [1, "Error", "Unknown error. Please open up an issue on GitHub (https://github.com/Quadrubo/BSDL) with your error log included (\"bsdl.txt\"). Check the \"bsdl.txt\" file for more information."]
 
     def download(self, progress, total_progress, season, series):
-        if self.hoster_url is None or self.hoster is None:
-            self.get_download_link()
-        hoster_url = self.hoster_url
-        preferred_hoster = self.hoster
+        try:
+            if self.hoster_url is None or self.hoster is None:
+                callback = self.get_download_link()
+                if type(callback) != str:
+                    return callback
 
-        if preferred_hoster == "vupload":
-            self.driver.get(hoster_url)
+            hoster_url = self.hoster_url
+            preferred_hoster = self.hoster
 
-            time.sleep(1)
+            if preferred_hoster == "vupload":
+                self.driver.get(hoster_url)
 
-            m3u8_script = self.driver.find_element(By.XPATH, '/html/body/div/script[7]').get_attribute('innerHTML')
+                time.sleep(1)
 
-            m3u8_url = re.findall('src: ".*master\.m3u8",', m3u8_script)[0]
-            m3u8_url = m3u8_url[6:m3u8_url.find(".m3u8") + 5]
+                m3u8_script = self.driver.find_element(By.XPATH, '/html/body/div/script[7]').get_attribute('innerHTML')
 
-            if self.download_from_m3u8(m3u8_url, progress, total_progress, season, series) != 0:
-                print("Skipping Download, please try again later.")
-        elif preferred_hoster == "upstream":
-            # TODO Not Implemented due to minified JavaScript
-            pass
-        elif preferred_hoster == "voe":
-            self.driver.get(hoster_url)
+                m3u8_url = re.findall('src: ".*master\.m3u8",', m3u8_script)[0]
+                m3u8_url = m3u8_url[6:m3u8_url.find(".m3u8") + 5]
 
-            time.sleep(1)
+                callback = self.download_from_m3u8(m3u8_url, progress, total_progress, season, series)
+                if callback != 0:
+                    return callback
+            elif preferred_hoster == "upstream":
+                # TODO Not Implemented due to minified JavaScript (fixable with log reading)
+                pass
+            elif preferred_hoster == "voe":
+                self.driver.get(hoster_url)
 
-            m3u8_script = self.driver.find_element(By.XPATH, '/html/body/div[3]/div[3]/div[2]/div/script[4]').get_attribute('innerHTML')
+                time.sleep(1)
 
-            m3u8_url = re.findall('hls": ".*master\.m3u8",', m3u8_script)[0]
-            m3u8_url = m3u8_url[7:m3u8_url.find(".m3u8") + 5]
+                m3u8_script = self.driver.find_element(By.XPATH, '/html/body/div[3]/div[3]/div[2]/div/script[4]').get_attribute('innerHTML')
 
-            if self.download_from_m3u8(m3u8_url, progress, total_progress, season, series) != 0:
-                print("Skipping Download, please try again later.")
-        elif preferred_hoster == "streamtape":
-            self.driver.get(hoster_url)
+                m3u8_url = re.findall('hls": ".*master\.m3u8",', m3u8_script)[0]
+                m3u8_url = m3u8_url[7:m3u8_url.find(".m3u8") + 5]
 
-            time.sleep(1)
+                callback = self.download_from_m3u8(m3u8_url, progress, total_progress, season, series)
+                if callback != 0:
+                    return callback
+            elif preferred_hoster == "streamtape":
+                self.driver.get(hoster_url)
 
-            self.driver.find_element(By.XPATH, '/html/body/div[2]/div[1]').click()
+                time.sleep(1)
 
-            time.sleep(1)
+                self.driver.find_element(By.XPATH, '/html/body/div[2]/div[1]').click()
 
-            self.driver.find_element(By.XPATH, '/html/body/div[2]/div[1]').click()
+                time.sleep(1)
 
-            time.sleep(1)
+                self.driver.find_element(By.XPATH, '/html/body/div[2]/div[1]').click()
 
-            mp4_link = self.driver.find_element(By.XPATH, '//*[@id="mainvideo"]').get_attribute('src')
+                time.sleep(1)
 
-            if self.download_from_mp4(mp4_link, progress, total_progress, season, series) != 0:
-                print("Skipping Download, please try again later.")
-        elif preferred_hoster == "mixdrop":
-            self.driver.get(hoster_url)
+                mp4_link = self.driver.find_element(By.XPATH, '//*[@id="mainvideo"]').get_attribute('src')
 
-            time.sleep(1)
+                callback = self.download_from_mp4(mp4_link, progress, total_progress, season, series)
+                if callback != 0:
+                    return callback
+            elif preferred_hoster == "mixdrop":
+                self.driver.get(hoster_url)
 
-            self.driver.find_element(By.XPATH, '//*[@id="videojs"]/button').click()
+                time.sleep(1)
 
-            time.sleep(1)
+                self.driver.find_element(By.XPATH, '//*[@id="videojs"]/button').click()
 
-            self.driver.find_element(By.XPATH, '//*[@id="videojs_html5_api"]').click()
+                time.sleep(1)
 
-            mp4_link = self.driver.find_element(By.XPATH, '//*[@id="videojs_html5_api"]').get_attribute('src')
+                self.driver.find_element(By.XPATH, '//*[@id="videojs_html5_api"]').click()
 
-            if self.download_from_mp4(mp4_link, progress, total_progress, season, series, 20) != 0:
-                print("Skipping Download, please try again later.")
-        elif preferred_hoster == "vidoza":
-            self.driver.get(hoster_url)
+                mp4_link = self.driver.find_element(By.XPATH, '//*[@id="videojs_html5_api"]').get_attribute('src')
 
-            time.sleep(1)
+                callback = self.download_from_mp4(mp4_link, progress, total_progress, season, series)
+                if callback != 0:
+                    return callback
+            elif preferred_hoster == "vidoza":
+                self.driver.get(hoster_url)
 
-            self.driver.find_element(By.XPATH, '//*[@id="vplayer"]/div[1]').click()
+                time.sleep(1)
 
-            time.sleep(1)
+                self.driver.find_element(By.XPATH, '//*[@id="vplayer"]/div[1]').click()
 
-            mp4_link = self.driver.find_element(By.XPATH, '//*[@id="player_html5_api"]').get_attribute('src')
+                time.sleep(1)
 
-            if self.download_from_mp4(mp4_link, progress, total_progress, season, series) != 0:
-                print("Skipping Download, please try again later.")
-        elif preferred_hoster == "videovard":
-            # TODO Not Implemented due to missing JavaScript
-            pass
+                mp4_link = self.driver.find_element(By.XPATH, '//*[@id="player_html5_api"]').get_attribute('src')
 
+                callback = self.download_from_mp4(mp4_link, progress, total_progress, season, series)
+                if callback != 0:
+                    return callback
+            elif preferred_hoster == "videovard":
+                # TODO Not Implemented due to missing JavaScript (fixable with log reading)
+                pass
+        except selenium.common.exceptions.InvalidArgumentException:
+            self.logger.error("Please close any currently running instances of chrome and try again. Also check the Task-Manager. Check the \"bsdl.txt\" file for more information.", exc_info=True)
+            return [1, "Error", "Please close any currently running instances of chrome and try again. Also check the Task-Manager. Check the \"bsdl.txt\" file for more information."]
+        except selenium.common.exceptions.WebDriverException:
+            self.logger.error("It seems like Chrome has been closed manually. Please try again. Check the \"bsdl.txt\" file for more information.", exc_info=True)
+            return [1, "Error", "It seems like Chrome has been closed manually. Please try again. Check the \"bsdl.txt\" file for more information."]
+        except Exception:
+            self.logger.error("Unknown error. Please open up an issue on GitHub (https://github.com/Quadrubo/BSDL) with your error log included (\"bsdl.txt\"). Check the \"bsdl.txt\" file for more information.")
+            return [1, "Error", "Unknown error. Please open up an issue on GitHub (https://github.com/Quadrubo/BSDL) with your error log included (\"bsdl.txt\"). Check the \"bsdl.txt\" file for more information."]
+
+        return 0
