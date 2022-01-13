@@ -40,7 +40,10 @@ class SeriesLoader(QObject):
         parts = 90 / seasons
 
         for season in series.seasons:
-            season.get_data()
+            callback = season.get_data()
+            if callback != 0:
+                self.callback_signal.emit(callback)
+                return callback
             local_progress += parts
             self.progress.emit([total_progress, local_progress])
 
@@ -78,7 +81,11 @@ class EpisodeDownloader(QObject):
         print(self.episode.url)
 
         self.episode.driver = scraper.driver
-        self.episode.download(self.progress, total_progress, self.season, self.series)
+        callback = self.episode.download(self.progress, total_progress, self.season, self.series)
+        if callback != 0:
+            self.callback_signal.emit(callback)
+            return callback
+
 
         scraper.quit_driver()
 
@@ -117,20 +124,24 @@ class SeasonDownloader(QObject):
             print(episode.name)
             if not episode.downloaded and episode.downloadable:
                 episode.driver = scraper.driver
-                episode.get_download_link()
+                callback = episode.get_download_link()
+                if type(callback) != str:
+                    self.callback_signal.emit(callback)
+                    return callback
                 print(episode.hoster)
                 print(episode.hoster_url)
 
         for episode in self.season.episodes:
             if not episode.downloaded and episode.downloadable:
                 episode.driver = scraper.driver
-                episode.download(self.progress, total_progress, self.season, self.series)
+                callback = episode.download(self.progress, total_progress, self.season, self.series)
+                if type(callback) != str:
+                    self.callback_signal.emit(callback)
+                    return callback
                 total_progress_min += 1
                 total_progress = f"Downloading Episode {total_progress_min} / {total_progress_max}"
                 db = Database(db_file_name="bsdl.db", db_folder_path='./db')
                 db.refresh_series_data(self.series)
-
-
 
         scraper.quit_driver()
 
