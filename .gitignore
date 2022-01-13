@@ -1,3 +1,4 @@
+**/.idea/
 **/_output
 **/build
 **/db
@@ -5,3 +6,4 @@
 **/driver
 config.json
 bsdl.log
+

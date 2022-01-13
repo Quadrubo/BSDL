@@ -5,6 +5,7 @@ import logging
 from database import Database
 from episode import Episode
 
+
 class Season:
     def __init__(self, driver, url, name=None, episodes=None):
         self.logger = None
