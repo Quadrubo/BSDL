@@ -135,7 +135,7 @@ class SeasonDownloader(QObject):
             if not episode.downloaded and episode.downloadable:
                 episode.driver = scraper.driver
                 callback = episode.download(self.progress, total_progress, self.season, self.series)
-                if type(callback) != str:
+                if callback != 0:
                     self.callback_signal.emit(callback)
                     return callback
                 total_progress_min += 1
