@@ -4,5 +4,5 @@
 # TODO sprache einfügen
 # TODO Organising Code and imports
 # TODO find an alternative to sleep in script
-
+# TODO redo config
 # config.py, database.py, episode.py, gui.py, season.py, series.py, workers.py
