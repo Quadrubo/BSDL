@@ -55,7 +55,7 @@ class Episode:
             print(i)
             time.sleep(1)
 
-        proc = subprocess.Popen(f'ffmpeg -i "{mp4_link}" -c copy -movflags faststart "{output_file}"', bufsize=1, stdout=subprocess.PIPE,
+        proc = subprocess.Popen(f'ffmpeg -y -i "{mp4_link}" -c copy -movflags faststart "{output_file}"', bufsize=1, stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT, universal_newlines=True, close_fds=True)
         total_seconds = None
         fps = None
@@ -143,7 +143,7 @@ class Episode:
 
         output_file = os.path.join(season_path, f'{self.number}.mp4')
 
-        proc = subprocess.Popen(f'ffmpeg -i "{m3u8_url}" -c copy "{output_file}"', bufsize=1, stdout=subprocess.PIPE,
+        proc = subprocess.Popen(f'ffmpeg -y -i "{m3u8_url}" -c copy "{output_file}"', bufsize=1, stdout=subprocess.PIPE,
                                 stderr=subprocess.STDOUT, close_fds=True)
         for line in iter(proc.stdout.readline, b''):
             line = line.decode()
@@ -211,40 +211,45 @@ class Episode:
 
             time.sleep(1)
 
-            msg_send = False
             while True:
+                msg_send = False
+                while True:
+                    try:
+                        vscheck = self.driver.find_element(By.XPATH, "/html/body/div[4]")
+                        if "visible" in vscheck.get_attribute("style"):
+                            if not msg_send:
+                                print("INFO: Captcha found, Human needed O.O")
+                                msg_send = True
+                        else:
+                            print("INFO: Captcha solved. Good job Human :)")
+                            break
+                    except:
+                        pass
+
+                time.sleep(1)
+
                 try:
-                    vscheck = self.driver.find_element(By.XPATH, "/html/body/div[4]")
-                    if "visible" in vscheck.get_attribute("style"):
-                        if not msg_send:
-                            print("INFO: Captcha found, Human needed O.O")
-                            msg_send = True
-                    else:
-                        print("INFO: Captcha solved. Good job Human :)")
-                        break
-                except:
-                    pass
-
-            time.sleep(1)
-
-            hoster_url = None
-            if preferred_hoster == "vupload":
-                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
-            elif preferred_hoster == "voe":
-                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
-            elif preferred_hoster == "streamtape":
-                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
-            elif preferred_hoster == "mixdrop":
-                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
-            elif preferred_hoster == "vidoza":
-                hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
-            elif preferred_hoster == "upstream":
-                hoster_url = None
-                # TODO Not Implemented due to minified JavaScript (fixable with log reading)
-            elif preferred_hoster == "videovard":
-                hoster_url = None
-                # TODO Not Implemented due to missing Javascript (fixable with log reading)
-                # hoster_url = self.driver.find_element(By.XPATH, 'https://videovard.sx/e/hd3elvaixjwb').get_attribute('src')
+                    hoster_url = None
+                    if preferred_hoster == "vupload":
+                        hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
+                    elif preferred_hoster == "voe":
+                        hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/a').get_attribute('href')
+                    elif preferred_hoster == "streamtape":
+                        hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
+                    elif preferred_hoster == "mixdrop":
+                        hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
+                    elif preferred_hoster == "vidoza":
+                        hoster_url = self.driver.find_element(By.XPATH, '//*[@id="root"]/section/div[9]/iframe').get_attribute('src')
+                    elif preferred_hoster == "upstream":
+                        hoster_url = None
+                        # TODO Not Implemented due to minified JavaScript (fixable with log reading)
+                    elif preferred_hoster == "videovard":
+                        hoster_url = None
+                        # TODO Not Implemented due to missing Javascript (fixable with log reading)
+                        # hoster_url = self.driver.find_element(By.XPATH, 'https://videovard.sx/e/hd3elvaixjwb').get_attribute('src')
+                    break
+                except selenium.common.exceptions.WebDriverException:
+                    print("It seems the captcha hasn't been solved, please open it again.")
 
             self.hoster = preferred_hoster
             self.hoster_url = hoster_url
