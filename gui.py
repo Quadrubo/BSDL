@@ -238,7 +238,7 @@ class Window(QMainWindow):
     def setup_ui(self):
         self.logger.debug("Setting up the UI")
 
-        self.setWindowTitle("BSDL v4.0.0-alpha.1")
+        self.setWindowTitle("BSDL v4.0.0-alpha.2")
         self.resize(900, 600)
         self.centralWidget = QWidget()
         self.setCentralWidget(self.centralWidget)
