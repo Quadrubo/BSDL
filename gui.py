@@ -253,6 +253,9 @@ class Window(QMainWindow):
         self.progressLabel = QLabel("0/0", self)
         self.progressBar = QProgressBar(self)
 
+        self.outputFolderButton = QPushButton("Open Output...", self)
+        self.outputFolderButton.clicked.connect(self.open_output_folder)
+
         self.tabWidget = TabWidget(self)
 
         self.configButton = QPushButton("Config", self)
@@ -264,7 +267,8 @@ class Window(QMainWindow):
         self.layout.addWidget(self.urlEntry, 0, 1, 1, 1)
         self.layout.addWidget(self.loadButton, 0, 2, 1, 1)
         self.layout.addWidget(self.progressLabel, 1, 0, 1, 1)
-        self.layout.addWidget(self.progressBar, 1, 1, 1, 2)
+        self.layout.addWidget(self.progressBar, 1, 1, 1, 1)
+        self.layout.addWidget(self.outputFolderButton, 1, 2, 1, 1)
         self.layout.addWidget(self.tabWidget, 2, 0, 1, 3)
         self.layout.addWidget(self.configButton, 3, 0, 1, 1)
         self.centralWidget.setLayout(self.layout)
@@ -420,6 +424,10 @@ class Window(QMainWindow):
         self.configButton.setEnabled(True)
         self.progressLabel.setText("0/0")
         self.progressBar.setValue(0)
+
+    def open_output_folder(self):
+        print(os.getcwd())
+        os.startfile(os.path.join(os.getcwd(), '_output'))
 
     def load_series_task(self):
         series_url = self.urlEntry.text()
