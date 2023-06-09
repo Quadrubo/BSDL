@@ -54,7 +54,7 @@ class Config:
         self.load_to_vars()
 
     def set_chrome_user_data_dir(self, text):
-        self.logger.debugf(f"Setting chrome user data directory to \"{text}\" ...")
+        self.logger.debug(f"Setting chrome user data directory to \"{text}\" ...")
         self.chrome_user_data_dir = text
 
         data = self.load()
